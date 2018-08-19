@@ -1,0 +1,17 @@
+@charset "UTF-8";
+img {
+	width: 30%;
+	float: left;
+	margin: 1.66%;
+}
+
+p {
+	padding-bottom: 25px;
+	width: 30%;
+	font-family: Raleway;
+	margin-left: 1.66%;
+	font-size: 23px;
+	font-weight: 800;
+	text-transform: uppercase;
+	border-bottom: 2px solid gray;
+}
