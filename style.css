@@ -53,11 +53,21 @@ body {
   font-size: 20px;
 }
 
+.upgrades-container {
+  font-size: 20px;
+  height: 25%;
+}
+
 #producer_container {
   padding: 10px;
   overflow: auto;
   border: 2px black solid;
   border-radius: 5px;
+}
+
+.reset-save-container {
+  height: 10%;
+  margin-bottom: 10%;
 }
 
 .producer {

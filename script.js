@@ -163,6 +163,40 @@ function save(data) {
   }
 }
 
+function coffeeGrinder(data) {
+  if (data.coffee < 10) {
+    window.alert("Not enough coffee");
+  }
+  else {
+    window.alert("Congratulations. Your CPS has been doubled");
+    data.producers.forEach((producer) => producer.cps*=2);
+    data.coffee-=10;
+    updateCoffeeView(data.coffee);
+    updateCPSView(data.totalCPS*=2);
+    renderProducers(data);
+  }
+}
+
+function reset(data) {
+  window.localStorage.clear();
+  updateCoffeeView(0);
+  updateCPSView(0);
+  renderProducers(window.data);
+  location.reload();
+  
+}
+
+function load() {
+  if (localStorage.getItem("data") != null) {
+    window.data = JSON.parse(localStorage.getItem("data"));
+    updateCPSView(data.totalCPS);
+    updateCoffeeView(data.coffee);
+  }
+  else {
+    window.alert("Nothing to load");
+  }
+}
+
 /*************************
  *  Start your engines!
  *************************/
@@ -181,27 +215,41 @@ if (typeof process === 'undefined') {
   // Get starting data from the window object
   // (This comes from data.js)
   let data = window.data;
-  if (localStorage.getItem("data")!=='undefined') {
-    data = JSON.parse(localStorage.getItem("data"));
-    updateCPSView(data.totalCPS);
-  }
 
 
   // Add an event listener to the giant coffee emoji
   const bigCoffee = document.getElementById('big_coffee');
-  bigCoffee.addEventListener('click', () => clickCoffee(data));
+  bigCoffee.addEventListener('click', () => clickCoffee(window.data));
 
   // Add an event listener to the container that holds all of the producers
   // Pass in the browser event and our data object to the event listener
   const producerContainer = document.getElementById('producer_container');
   producerContainer.addEventListener('click', event => {
-    buyButtonClick(event, data);
+    buyButtonClick(event, window.data);
   });
 
-  // Call the tick function passing in the data object once per second
-  setInterval(() => tick(data), 1000);
+  const upgradeButton = document.querySelector("#buy_coffee_grinder");
+  upgradeButton.addEventListener('click', event => {
+    coffeeGrinder(window.data);
+  });
 
-  setInterval(() => save(data), 5000);
+  const saveButton = document.querySelector('#save');
+  saveButton.addEventListener('click', event => {
+    save(window.data);
+  });
+
+  const resetButton = document.querySelector("#reset");
+  resetButton.addEventListener('click', event => {
+    reset(window.data);
+  })
+
+  const loadButton = document.querySelector("#load");
+  loadButton.addEventListener('click', event => {
+    load();
+  })
+
+  // Call the tick function passing in the data object once per second
+  setInterval(() => tick(window.data), 1000);
 }
 // Meanwhile, if we aren't in a browser and are instead in node
 // we'll need to exports the code written here so we can import and
