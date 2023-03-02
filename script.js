@@ -28,12 +28,13 @@ function unlockProducers(producers, coffeeCount) {
 }
 
 function getUnlockedProducers(data) {
-  let res = [];
-  for (i=0; i < data.producers.length; i++) {
-    if (data.producers[i].unlocked === true) {
-      res.push(data.producers[i]);
-    }
-  }
+  // let res = [];
+  // for (i=0; i < data.producers.length; i++) {
+  //   if (data.producers[i].unlocked === true) {
+  //     res.push(data.producers[i]);
+  //   }
+  // }
+  let res = data.producers.filter(producer => producer.unlocked===true);
   return res;
 }
 
