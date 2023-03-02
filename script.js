@@ -157,6 +157,12 @@ function tick(data) {
 
 }
 
+function save(data) {
+  if(data.coffee!=0) {
+    localStorage.setItem("data", JSON.stringify(data));
+  }
+}
+
 /*************************
  *  Start your engines!
  *************************/
@@ -174,7 +180,12 @@ function tick(data) {
 if (typeof process === 'undefined') {
   // Get starting data from the window object
   // (This comes from data.js)
-  const data = window.data;
+  let data = window.data;
+  if (localStorage.getItem("data")!=='undefined') {
+    data = JSON.parse(localStorage.getItem("data"));
+    updateCPSView(data.totalCPS);
+  }
+
 
   // Add an event listener to the giant coffee emoji
   const bigCoffee = document.getElementById('big_coffee');
@@ -189,6 +200,8 @@ if (typeof process === 'undefined') {
 
   // Call the tick function passing in the data object once per second
   setInterval(() => tick(data), 1000);
+
+  setInterval(() => save(data), 5000);
 }
 // Meanwhile, if we aren't in a browser and are instead in node
 // we'll need to exports the code written here so we can import and
